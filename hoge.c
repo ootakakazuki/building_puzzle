@@ -14,14 +14,14 @@ int		from_up_check(int j)
 	int		pro_val = (field[3][j] - '0');
 	while (k <= 3)
 	{
-		if (pro_val < (field[k][j] - '0')
+		if (pro_val < (field[k][j] - '0'))
 		{
-			pro_val = field[i][k] - '0';
+			pro_val = field[k][j] - '0';
 			max_count++;
 		}
 		k++;
 	}
-	return (max_count == g_up_box) ? 1 : 0;
+	return (max_count == g_up_box[j]) ? 1 : 0;
 }
 
 
@@ -32,14 +32,14 @@ int		from_down_check(int j)
 	int		pro_val = (field[3][j] - '0');
 	while (k <= 3)
 	{
-		if (pro_val < (field[k][j] - '0')
+		if (pro_val < (field[k][j] - '0'))
 		{
 			pro_val = field[k][j] - '0';
 			max_count++;
 		}
 		k--;
 	}
-	return (max_count == g_down_box) ? 1 : 0;
+	return (max_count == g_down_box[j]) ? 1 : 0;
 }
 
 
@@ -50,14 +50,14 @@ int		from_left_check(int i)
 	int		pro_val = (field[i][3] - '0');
 	while (k <= 3)
 	{
-		if (pro_val < (field[i][k] - '0')
+		if (pro_val < (field[i][k] - '0'))
 		{
 			pro_val = field[i][k] - '0';
 			max_count++;
 		}
 		k++;
 	}
-	return (max_count == g_left_box) ? 1 : 0;
+	return (max_count == g_left_box[i]) ? 1 : 0;
 }
 
 
@@ -68,14 +68,14 @@ int		from_right_check(int i)
 	int		pro_val = (field[i][3] - '0');
 	while (k >= 0)
 	{
-		if (pro_val < (field[i][k] - '0')
+		if (pro_val < (field[i][k] - '0'))
 		{
 			pro_val = field[i][k] - '0';
 			max_count++;
 		}
 		k--;
 	}
-	return (max_count == g_right_box) ? 1 : 0;
+	return (max_count == g_right_box[i]) ? 1 : 0;
 }
 
 
@@ -114,18 +114,19 @@ void	print_field()
 	{
 		while (j < 4)
 		{
-			(j == 3) ? printf("%s\n", field[i][j]) : printf("%s", field[i][j]);;
+			(j == 3) ? printf("%c\n", field[i][j]) : printf("%c", field[i][j]);;
 			j++;
 		}
 		i++;
 	}
+}
 
 // 再帰を利用して数を入力
 int		back_track(int i, int j)
 {
 	int		num = 1;
 
-	if (i == 3 && j == 4) {
+	if (i == 4) {
 		print_field();
 		return 1;
 	}
@@ -134,11 +135,11 @@ int		back_track(int i, int j)
 	{
 		if (!row_check(num, i, j))continue;
 		field[i][j] = num;	
-		if (j == 3 && !from_right_check(i) && !from_left_check(i))
+		if (j == 3 && !from_right_check(i) && !from_left_check(i) && back_track(i + 1, 0))
 		{
 			field[i][j] = 0;	
 		}
-		if (i == 3 && !col_check() && back_track(i + 1, j))
+		if (i == 3 && !col_check(num, i) && !from_up_check(j) && !from_down_check(j) && back_track(i, j + 1))
 		{
 			field[i][j] = 0;
 		}
@@ -159,14 +160,14 @@ int		isNum(char c)
 }
 
 
-int		char_len(char **str)
+int		char_len(char *str)
 {
 	int 	i = 0;
 	int 	re = 0;
-	while (i < 32)
-	{
-		
+	while (i < 32 && str[i] != 0)
+	{		
 		i++;
+		re++;
 	}
 	return re;
 }
@@ -175,25 +176,29 @@ int		char_len(char **str)
 int		main(int argc, char **argv)
 {
 	int		i = 0;
-	
-	if (char_len(argv) != 31)
+	int a = char_len(*argv);
+	if (char_len(*argv) != 31)
 	{
-		printf("%s", "ERROR");
-		return;
+		printf("%d%s",a, "ERROR1");
+		return 0;
 	}
 
+	/*
 	while (i < 32)
 	(
 		argv[i]
+		
 		if (i % 2 == 0 && )
 		{
 			
 		}
 		i++;
 	)
+	*/
 	if (!back_track(0, 0))
 	{
-		printf("%s", "ERROR");
+		printf("%s", "ERROR2");
 	}
+	return 0;
 }
 
