@@ -135,7 +135,6 @@ int		back_track(int i, int j)
 	int		num = 1;
 
 	if (i == 4) {
-		printf("pass");
 		print_field();
 		return 1;
 	}
@@ -152,12 +151,10 @@ int		back_track(int i, int j)
 		if (j == 3 && from_right_check(i) && from_left_check(i) && back_track(i + 1, 0))
 		{
 			return 1;
-			//field[i][j] = 0;	
 		}
 		else if (i == 3 && !col_check(num, i, j) && from_up_check(j) && from_down_check(j) && back_track(i, j + 1))
 		{
 			return 1;
-			//field[i][j] = 0;
 		}
 		else 
 		{
