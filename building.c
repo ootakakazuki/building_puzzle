@@ -199,7 +199,6 @@ int		main(int argc, char **argv)
 	if (a != 31)
 	{
 		// 31文字ないときに出力
-		printf("%d%s",a, "ERROR1");
 		return 0;
 	}
 	while (i < 4)
